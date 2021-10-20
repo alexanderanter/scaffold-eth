@@ -8,11 +8,16 @@ contract YourContract is Ownable {
 
   //event SetPurpose(address sender, string purpose);
 
+  mapping(address => uint256) public balance;
+  address public myOwner = 0xfbC798F5eFB753f4fa81BE2e56cC68E23d6cD007;
+
   string public purpose = "Building Unstoppable Appps!!x";
 
   constructor() {
     //set the owner to a different address than the deploy wallet
    transferOwnership(0xfbC798F5eFB753f4fa81BE2e56cC68E23d6cD007);
+
+   balance[myOwner] = 1000;
   }
 
   function setPurpose(string memory newPurpose) public payable {
