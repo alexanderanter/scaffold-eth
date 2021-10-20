@@ -9,17 +9,23 @@ contract YourContract is Ownable {
   //event SetPurpose(address sender, string purpose);
 
   mapping(address => uint256) public balance;
-  address public myOwner = 0xfbC798F5eFB753f4fa81BE2e56cC68E23d6cD007;
+  address public myOwner = 0x0c9A1E4a543618706D31F33b643aba10E0D9048e;
 
   string public purpose = "Building Unstoppable Appps!!x";
 
   constructor() {
     //set the owner to a different address than the deploy wallet
-   transferOwnership(0xfbC798F5eFB753f4fa81BE2e56cC68E23d6cD007);
+   transferOwnership(0x0c9A1E4a543618706D31F33b643aba10E0D9048e);
 
    balance[myOwner] = 1000;
   }
 
+
+  function transfer(address to, uint256 amount) public {
+    require( balance[msg.sender] >= amount, "NOT ENOUGH");
+    balance[msg.sender] -= amount;
+    balance[to] += amount;
+  }
   function setPurpose(string memory newPurpose) public payable {
     //make sure user pays 0.001 ether in order to change purpose
     require(msg.value == 0.001 ether, "NOT ENOUGH");
@@ -29,7 +35,7 @@ contract YourContract is Ownable {
   }
 
   function withdraw() public onlyOwner {
-      (bool success, bytes memory data) = msg.sender.call{value: address(this).balance}("");
+      (bool success, ) = msg.sender.call{value: address(this).balance}("");
       require( success, "FAILED");
     
   }
